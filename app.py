@@ -31,6 +31,7 @@ properties = configparser.ConfigParser()
 properties.read('./setting.ini')
 
 EV6 = properties["EV6"]
+Spotage = properties["Spotage"]
 
 ## selenuim Chrome Driver Option Setting
 options = webdriver.ChromeOptions()
@@ -44,10 +45,23 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 
 
-URL = EV6["URL"]
+URL = Spotage["URL"]
 driver.get(URL)
 
 driver.find_element(By.CLASS_NAME, 'conf-btn-close').click()
+
+# trim = '//*[@id="' + Spotage["TRIM"] + '"]'
+trim = Spotage["TRIM"]
+# print(trim)
+# //*[@id="filterItem_0_NQ-9"]
+
+# driver.find_element(By.XPATH, trim).click()
+# driver.find_element(By.XPATH, '//*[@id="filterItem_0_NQ-9"]').click()
+driver.find_element(By.XPATH, '//*[@id="menu_content_choose_trim"]/div/div[2]/div[2]/div[3]/label"]').click()
+
+# driver.find_element(By.NAME, 'filter_0_06').click()
+
+
 
 ### 확인 필요한 것들
 # - 디폴트 사양?
