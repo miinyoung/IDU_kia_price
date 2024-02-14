@@ -45,19 +45,19 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 
 
+
 URL = Spotage["URL"]
 driver.get(URL)
 
 driver.find_element(By.CLASS_NAME, 'conf-btn-close').click()
 
-# trim = '//*[@id="' + Spotage["TRIM"] + '"]'
-trim = Spotage["TRIM"]
+trim = str("//label[@for='" + Spotage["TRIM"] + "']")
 # print(trim)
 # //*[@id="filterItem_0_NQ-9"]
+# driver.find_element(By.XPATH, "//label[@for='filterItem_0_NQ-9']").click()
 
-# driver.find_element(By.XPATH, trim).click()
+driver.find_element(By.XPATH, trim).click()
 # driver.find_element(By.XPATH, '//*[@id="filterItem_0_NQ-9"]').click()
-driver.find_element(By.XPATH, '//*[@id="menu_content_choose_trim"]/div/div[2]/div[2]/div[3]/label"]').click()
 
 # driver.find_element(By.NAME, 'filter_0_06').click()
 
