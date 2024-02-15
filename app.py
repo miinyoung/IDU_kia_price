@@ -109,13 +109,10 @@ button_element = driver.find_element(By.XPATH, '//button[@data-link-label="면�
 driver.execute_script("arguments[0].click();", button_element)
 
 ### 일반인
-# accordingPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[4]/h3/button/span[2]/span[1]').text
-# accordingPrice = driver.find_elements(By.CLASS_NAME, 'accordion_price')[1].text
-accordingPrice = driver.find_elements(By.CLASS_NAME, 'accordion_price')
-print(accordingPrice)
-# accordingPrice = accordingPrice[:-1]
-# accordingPrice = accordingPrice.replace(",", "")
-# print(accordingPrice)
+paymentPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[4]/h3/button/span[2]/span[1]').text
+paymentPrice = paymentPrice[:-1]
+paymentPrice = paymentPrice.replace(",", "")
+print("결제 금액 : " + paymentPrice)
 
 
 ### 일반인 + 다자녀
