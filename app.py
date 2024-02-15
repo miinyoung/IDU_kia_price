@@ -12,8 +12,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 # from openpyxl import Workbook
@@ -37,7 +38,9 @@ Spotage = properties["Spotage"]
 options = webdriver.ChromeOptions()
 options.add_argument('lang=ko_KR') # 사용언어 한국어
 # options.add_argument('disable-gpu') # 하드웨어 가속 안함
-# options.add_argument('headless')
+options.add_argument('log-level=3')
+options.add_argument('--window-size=1920,1080') # 해상도 설정 
+options.add_argument('headless')
 # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 options.add_experimental_option("detach",True) # 웹브라우저 유지
 
@@ -50,23 +53,98 @@ URL = Spotage["URL"]
 driver.get(URL)
 
 driver.find_element(By.CLASS_NAME, 'conf-btn-close').click()
+driver.implicitly_wait(3)
 
+## 트림 선택
 trim = str("//label[@for='" + Spotage["TRIM"] + "']")
-# print(trim)
-# //*[@id="filterItem_0_NQ-9"]
-# driver.find_element(By.XPATH, "//label[@for='filterItem_0_NQ-9']").click()
-
 driver.find_element(By.XPATH, trim).click()
-# driver.find_element(By.XPATH, '//*[@id="filterItem_0_NQ-9"]').click()
+# driver.find_element(By.XPATH, "//label[@for='filterItem_0_NQ-9']").click()
+driver.implicitly_wait(3)
 
-# driver.find_element(By.NAME, 'filter_0_06').click()
+## 트림 세부
+trimItem = str("//label[@for='" + Spotage["TRIM_ITEM"] + "']")
+driver.find_element(By.XPATH, trimItem).click()
+driver.implicitly_wait(3)
+
+## 컬러 선택 이동
+driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div/button').click()
+driver.implicitly_wait(3)
+
+## 외장 컬러 선택
+extColor = str("//label[@for='" + Spotage["EXT_COLOR"] + "']")
+driver.find_element(By.XPATH, extColor).click()
+driver.implicitly_wait(3)
+
+## 내장 컬러 선택
+intColor = str("//label[@for='" + Spotage["INT_COLOR"] + "']")
+driver.find_element(By.XPATH, intColor).click()
+driver.implicitly_wait(3)
+
+## 옵션 선택
+driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div[2]/button').click()
+driver.implicitly_wait(3)
+
+## 패키지 선택
+package = str(Spotage["PACKAGE"])
+if package == "none":
+    pass
+else:
+    print("code exec")
+
+## 상세 옵션 선택
+option = str("//label[@for='" + Spotage["OPTION"] + "']")
+driver.find_element(By.XPATH, option).click()
+driver.implicitly_wait(3)
+
+## 액세사리 선택
+driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div[2]/button').click()
+driver.implicitly_wait(3)
+
+## 견적 완료
+driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div[2]/button').click()
+driver.implicitly_wait(5)
+
+## 면세 구분 클릭
+button_element = driver.find_element(By.XPATH, '//button[@data-link-label="면세 구분 및 등록비_상세보기"]')
+driver.execute_script("arguments[0].click();", button_element)
+
+### 일반인
+# accordingPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[4]/h3/button/span[2]/span[1]').text
+# accordingPrice = driver.find_elements(By.CLASS_NAME, 'accordion_price')[1].text
+accordingPrice = driver.find_elements(By.CLASS_NAME, 'accordion_price')
+print(accordingPrice)
+# accordingPrice = accordingPrice[:-1]
+# accordingPrice = accordingPrice.replace(",", "")
+# print(accordingPrice)
+
+
+### 일반인 + 다자녀
+
+### 장애 4~6 등급
+
+### 국가유공자
+
+### 광주민주화
+
+
+
+
+
+# 드롭다운
+# select_element = driver.find_element(By.CLASS_NAME, 'dropdown-select__list')
+# select = Select(select_element)
+# select.select_by_value("장애 1~3급")
+# driver.find_element(By.XPATH, '//*[@id="accordion-item-1707963078660-panel"]/div[1]/div[2]/div[1]/div/ul/li[2]/button').click()
+
+
+
 
 
 
 ### 확인 필요한 것들
 # - 디폴트 사양?
 
-time.sleep(10)
+time.sleep(5)
 # conf-btn-close
 
 
