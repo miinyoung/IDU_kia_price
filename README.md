@@ -16,6 +16,8 @@ python priceCrawling.py ## 해당 파일의 폴더 경로에서 파이썬 코드
 
 __`result/` 경로에서 excel 파일로 추출 결과 확인 가능__
 
+___유의사항 : `기아닷컴 웹페이지>차량 견적내기` 접속 후 팝업창의 "오늘 다시보기 하지않기" 클릭 금지___
+
 ## 차량 추가 방법
 
 1. `setting.ini`에 차량 필수 정보를 입력
@@ -68,6 +70,20 @@ setting.ini의 값은 기아닷컴의 label 태그의 for 속성값 기준의 XP
 ( 예 : 쏘렌토 차량(인승) -> label 태그의 for 값 : filterItem_0_MQ-7 )
 
 ![image01](./img/image_01.png)
+
+상세 HTML 코드
+
+```html
+...
+
+<div class="trim-filter-option">
+    <input type="radio" class="btn-check" id="filterItem_0_MQ-7" name="filter_0_05" value="MQ-7">
+    <label class="label-radio btn trim-filter-option-label" for="filterItem_0_MQ-7">7인승</label>
+</div>
+
+...
+
+```
 
 ### 2. 코드 추가
 
