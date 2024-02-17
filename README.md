@@ -40,7 +40,7 @@ TRIM = # 트림
 EXT_COLOR = # 외장 컬러
 INT_COLOR = # 내장 컬러
 PACKAGE = # 컬러/패키지 (해당 요소가 없을 경우 none으로 기재)
-OPTION = # 추가 상세 옵션
+OPTION = # 추가 상세 옵션 (추가 옵션 미선택시 none으로 기재)
 
 ...
 

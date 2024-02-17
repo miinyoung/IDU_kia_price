@@ -143,10 +143,13 @@ def main(car):
         driver.implicitly_wait(3)        
 
     ## 상세 옵션 선택
-    option = str("//label[@for='" + car["OPTION"] + "']")
-    driver.find_element(By.XPATH, option).click()
-    trimSelected += driver.find_element(By.XPATH, option + "/span[2]").text
-    driver.implicitly_wait(3)
+    if str(car["OPTION"]) == "none":
+        pass
+    else :
+        option = str("//label[@for='" + car["OPTION"] + "']")
+        driver.find_element(By.XPATH, option).click()
+        trimSelected += driver.find_element(By.XPATH, option + "/span[2]").text
+        driver.implicitly_wait(3)
 
     ## 선택 내용 추가
     row.append(trimSelected)   
