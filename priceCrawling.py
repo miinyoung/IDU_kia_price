@@ -204,12 +204,12 @@ def main(car):
     time.sleep(RESULTPAGE_LOADTIME)
     pricePrint(row.copy())
 
-    for eachRow in resultRows:
-        resultFile.append(eachRow)
+    # for eachRow in resultRows:
+    #     resultFile.append(eachRow)
 
-    wb.save(os.path.join(os.getcwd(), "result/") + "KiaPrice_" + currentTime+ ".xlsx")
-    print("---------------------------------------------")
-    time.sleep(0.5)
+    # wb.save(os.path.join(os.getcwd(), "result/") + "KiaPrice_" + currentTime+ ".xlsx")
+    # print("---------------------------------------------")
+    # time.sleep(0.5)
     
 ## Excel setting
 wb = Workbook()
@@ -258,5 +258,12 @@ driver = webdriver.Chrome(service=service, options=options)
 
 for car in carList:
     main(car)
+
+for eachRow in resultRows:
+    resultFile.append(eachRow)
+
+wb.save(os.path.join(os.getcwd(), "result/") + "KiaPrice_" + currentTime+ ".xlsx")
+print("---------------------------------------------")
+time.sleep(0.5)
 
 print("------------End------------")
