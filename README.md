@@ -1,4 +1,4 @@
-# 기아 차량 가격 크롤러
+# 1. 기아 차량 가격 크롤러
 
 ## 개요
 기아 DCS 컨피규레이터와 기아닷컴 사이의 가격 비교를 위해 기아닷컴에서 차량 컨피규레이션에 따른 가격 정보를 엑셀로 저장하는 크롤러(Selenium)
@@ -101,7 +101,7 @@ properties.read('./setting.ini')
 default = properties["Default"]
 
 ## 기존차량
-Spotage = properties["Spotage"]
+Spotage = properties["Sportage"]
 K8 = properties["K8"]
 
 ##-------- 신규 차량(코드 추가 예시) --------
@@ -112,7 +112,7 @@ RESULTPAGE_LOADTIME = int(default["RESULTPAGE_LOADTIME"])
 
 ##-------- 신규 차량(코드 추가 예시) --------
 #carList = [Spotage, K8] # 기존 차량 리스트
-carList = [Spotage, K8, Sorento] # 기존 리스트에 신규 차량(Sorento) 추가
+carList = [Sportage, K8, Sorento] # 기존 리스트에 신규 차량(Sorento) 추가
 
 ...
 
@@ -127,3 +127,7 @@ carList = [Spotage, K8, Sorento] # 기존 리스트에 신규 차량(Sorento) �
 ### 크롤링 결과 EXCEL 파일
 
 ![result01](./img/result_01.png)
+
+
+
+# 2. 컨피규레이터와 차량가격 비교

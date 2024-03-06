@@ -21,49 +21,47 @@ import copy
 def pricePrint(row):
     paymentPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[4]/h3/button/span[2]/span[1]').text
     paymentPrice = paymentPrice[:-1]
-    # paymentPrice = paymentPrice.replace(",", "")
+    paymentPrice = paymentPrice.replace(",", "")
     row.append(paymentPrice)    
     print("결제 금액 : " + paymentPrice)
 
     taxPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/h3/button/span[2]/span[1]').text
     taxPrice = taxPrice[:-1]
-    # taxPrice = taxPrice.replace(",", "")
+    taxPrice = taxPrice.replace(",", "")
     row.append(taxPrice)
     print("면세 구분 및 등록비 : " + taxPrice)
-
     acquisitionPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/div/div[2]/div/div[2]').text
     acquisitionPrice = acquisitionPrice[:-1]
-    # acquisitionPrice = acquisitionPrice.replace(",", "")
+    acquisitionPrice = acquisitionPrice.replace(",", "")
     row.append(acquisitionPrice)
     print("취득세 : " + acquisitionPrice)
-
     bondPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/div/div[3]/div[1]/div[2]').text
     bondPrice = bondPrice[:-1]
-    # bondPrice = bondPrice.replace(",", "")
+    bondPrice = bondPrice.replace(",", "")
     row.append(bondPrice)
     print("공채 : " + bondPrice)
 
     licensePrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/div/div[3]/div[3]/div[1]/div[2]').text
     licensePrice = licensePrice[:-1]
-    # licensePrice = licensePrice.replace(",", "")
+    licensePrice = licensePrice.replace(",", "")
     row.append(licensePrice)
     print("차량 번호판 : " + licensePrice)
 
     registPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/div/div[3]/div[3]/div[2]/div[2]').text
     registPrice = registPrice[:-1]
-    # registPrice = registPrice.replace(",", "")
+    registPrice = registPrice.replace(",", "")
     row.append(registPrice)
     print("등록 대행 수수료 : " + registPrice)
 
     try:
         mTaxPrice = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div[1]/div/div/div[5]/div/div[4]/div[1]/div[2]').text
-        mTaxPrice = mTaxPrice[:-1]
-        # mTaxPrice = mTaxPrice.replace(",", "")
+        mTaxPrice = mTaxPrice[1:-1]#- 부호 생략
+        mTaxPrice = mTaxPrice.replace(",", "")
         mTaxPrice = mTaxPrice.replace(" ", "")
         row.append(mTaxPrice)
         print("세금 변동 : " + mTaxPrice)
     except:
-        row.append("-")
+        row.append("0") #없는 경우 0
         pass
 
     print(row)
@@ -215,7 +213,8 @@ def main(car):
 wb = Workbook()
 resultFile = wb.active
 resultRows = []
-currentTime = str(datetime.today().strftime("%Y%m%d_%H%M"))
+# currentTime = str(datetime.today().strftime("%Y%m%d_%H%M")) 
+currentTime = str(datetime.today().strftime("%Y-%m-%d")) 
 
 resultFile["A1"].value = "차량"
 resultFile["B1"].value = "선택 내용"
@@ -230,18 +229,19 @@ resultFile["J1"].value = "세금 변동"
 
 ## Read setting.ini
 properties = configparser.ConfigParser()
-properties.read('./setting.ini')
+print(properties)
+properties.read('setting.ini') # 경로
+print(properties.sections())
 
 default = properties["Default"]
-Spotage = properties["Spotage"]
+Sportage = properties["Sportage"]
 K8 = properties["K8"]
 Sorento = properties["Sorento"]
 
 global RESULTPAGE_LOADTIME
 RESULTPAGE_LOADTIME = int(default["RESULTPAGE_LOADTIME"])
 
-# carList = [Spotage, K8, Sorento]
-carList = [Spotage, K8, Sorento]
+carList = [Sportage, K8, Sorento]
 
 ## selenuim Chrome Driver Option Setting
 options = webdriver.ChromeOptions()
@@ -262,7 +262,8 @@ for car in carList:
 for eachRow in resultRows:
     resultFile.append(eachRow)
 
-wb.save(os.path.join(os.getcwd(), "result/") + "KiaPrice_" + currentTime+ ".xlsx")
+
+wb.save(os.path.join(os.getcwd(), "result/") + "KiaPrice_" + currentTime+ ".xlsx") #경로 
 print("---------------------------------------------")
 time.sleep(0.5)
 
