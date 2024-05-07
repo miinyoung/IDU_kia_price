@@ -72,6 +72,7 @@ def main(car):
     row = []
     trimSelected = ""
     carName = car["NAME"]
+    waitS = 5 #기다리는 시간
     row.append(carName)
     print(carName)
 
@@ -93,16 +94,24 @@ def main(car):
         driver.implicitly_wait(3)
 
     ## 엔진 선택
-    engine = str("//label[@for='" + car["ENGINE"] + "']")
-    driver.find_element(By.XPATH, engine).click()
-    trimSelected += driver.find_element(By.XPATH, engine).text + " / "
-    driver.implicitly_wait(3)    
+    engine = str(car["ENGINE"])
+    if engine == 'none':
+        pass
+    else:
+        engine = str("//label[@for='" + car["ENGINE"] + "']")
+        driver.find_element(By.XPATH, engine).click()
+        trimSelected += driver.find_element(By.XPATH, engine).text + " / "
+        driver.implicitly_wait(3)    
 
     ## 미션 선택
-    trans = str("//label[@for='" + car["TRANSMISSION"] + "']")
-    driver.find_element(By.XPATH, trans).click()
-    trimSelected += driver.find_element(By.XPATH, trans).text + " / "
-    driver.implicitly_wait(3)    
+    trans = str(car["TRANSMISSION"])
+    if trans == 'none':
+        pass
+    else:
+        trans = str("//label[@for='" + car["TRANSMISSION"] + "']")
+        driver.find_element(By.XPATH, trans).click()
+        trimSelected += driver.find_element(By.XPATH, trans).text + " / "
+        driver.implicitly_wait(3)    
 
     ## 트림
     trim = str("//label[@for='" + car["TRIM"] + "']")
@@ -158,7 +167,7 @@ def main(car):
 
     ## 견적 완료
     driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div[2]/button').click()
-    time.sleep(3) #계산 때문에 3초 딜레이 추가
+    time.sleep(RESULTPAGE_LOADTIME) #계산 때문에 3초 딜레이 추가
 
     ## 면세 구분 클릭
     button_element = driver.find_element(By.XPATH, '//button[@data-link-label="면세 구분 및 등록비_상세보기"]')
@@ -237,11 +246,14 @@ default = properties["Default"]
 Sportage = properties["Sportage"]
 K8 = properties["K8"]
 Sorento = properties["Sorento"]
+EV6 = properties["EV6"]
+EV9 = properties["EV9"]
+Carnival = properties["Carnival"]
 
 global RESULTPAGE_LOADTIME
 RESULTPAGE_LOADTIME = int(default["RESULTPAGE_LOADTIME"])
 
-carList = [Sportage, K8, Sorento]
+carList = [Sportage, K8, Sorento, EV6, EV9, Carnival]
 
 ## selenuim Chrome Driver Option Setting
 options = webdriver.ChromeOptions()
