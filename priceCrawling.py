@@ -92,10 +92,20 @@ def main(car):
         driver.find_element(By.XPATH, number).click()
         trimSelected += driver.find_element(By.XPATH, number).text + "/"
         driver.implicitly_wait(3)
+    
+    ## 바디 선택
+    bodyType = str(car["BODY"])
+    if bodyType == "none":
+        pass     
+    else : 
+        bodyType = str("//label[@for='" + car["BODY"] + "']")
+        driver.find_element(By.XPATH, bodyType).click()
+        trimSelected += driver.find_element(By.XPATH, bodyType).text + "/"
+        driver.implicitly_wait(3)
 
     ## 엔진 선택
     engine = str(car["ENGINE"])
-    if engine == 'none':
+    if engine == "none":
         pass
     else:
         engine = str("//label[@for='" + car["ENGINE"] + "']")
@@ -105,7 +115,7 @@ def main(car):
 
     ## 미션 선택
     trans = str(car["TRANSMISSION"])
-    if trans == 'none':
+    if trans == "none":
         pass
     else:
         trans = str("//label[@for='" + car["TRANSMISSION"] + "']")
@@ -167,7 +177,7 @@ def main(car):
 
     ## 견적 완료
     driver.find_element(By.XPATH, '//*[@id="build_menu_btns"]/div/div/div/div[2]/button').click()
-    time.sleep(RESULTPAGE_LOADTIME) #계산 때문에 3초 딜레이 추가
+    time.sleep(5) #계산 때문에 3초 딜레이 추가
 
     ## 면세 구분 클릭
     button_element = driver.find_element(By.XPATH, '//button[@data-link-label="면세 구분 및 등록비_상세보기"]')
@@ -249,11 +259,16 @@ Sorento = properties["Sorento"]
 EV6 = properties["EV6"]
 EV9 = properties["EV9"]
 Carnival = properties["Carnival"]
+EV3 = properties["EV3"]
+#MORNING = properties["Morning"]
+
 
 global RESULTPAGE_LOADTIME
 RESULTPAGE_LOADTIME = int(default["RESULTPAGE_LOADTIME"])
 
-carList = [Sportage, K8, Sorento, EV6, EV9, Carnival]
+carList = [Sportage, K8, Sorento, EV6, EV9, Carnival, EV3]
+# carList = [Sportage, K8, Sorento, EV9, EV3]
+# carList = [EV3]
 
 ## selenuim Chrome Driver Option Setting
 options = webdriver.ChromeOptions()
@@ -263,10 +278,17 @@ options.add_argument('lang=ko_KR') # 사용언어 한국어
 options.add_argument('--window-size=1920,1080') # 해상도 설정 
 options.add_argument('headless')
 # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-options.add_experimental_option("detach",True) # 웹브라우저 유지
+options.add_experimental_option("detach",False) # True 웹브라우저 유지
 
+#selenium 3.x.x
+#크롬 버전 114로 낮춤
+#driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), chrome_options=options)
+#크롬 버전 올라갈 경우 122.xx driver
+#driver = webdriver.Chrome(executable_path='/Users/kimmin-yeong/Downloads/chromedriver-mac-x64')
+
+# selenium 4.4.3
 service = Service(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=options)
+driver = webdriver.Chrome(service=service)
 
 for car in carList:
     main(car)

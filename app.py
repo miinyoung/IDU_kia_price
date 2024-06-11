@@ -10,16 +10,18 @@ from datetime import datetime
 print("JSON PARSING start")
 
 #닷컴 크롤링 값 - 컨피규 json값 비교
-carList = ['Sportage', 'K8', 'Sorento', 'EV6', 'EV9', 'Carnival']
-fileName=['스포티지HEV', 'K8', '쏘렌토', 'EV6', 'EV9', '카니발']
+carList = ['Sportage', 'K8', 'Sorento', 'EV9']
+prefix=['스포티지HEV','K8', '쏘렌토', 'EV9']
+
+# carList = ['Sportage', 'K8', 'Sorento', 'EV6', 'EV9', 'Carnival']
+# prefix=['스포티지HEV','K8', '쏘렌토', 'EV6', 'EV9', '카니발']
 taxList = ['일반인', '다자녀', '장애 4~6급', '국가유공자', '광주민주화']
 fpath = os.getcwd()
 taxN = 7 # 가격 비교 종류 수
 
 
-def read_Json(fpath, car, tax, prefix):
-    fName=prefix+'_'+tax
-    fpath += '/JsonData/'+car+'/'+fName+'.json'
+def read_Json(fpath, car, tax, p):
+    fpath += '/JsonData/'+car+'/'+p+'_'+tax+'.json'
     #없는 파일에 대해 에러처리
     #json데이터
     res = []
@@ -47,7 +49,9 @@ confList = []
 
 #차량기준 비교
 idx = 2 #처음 2행부터 시작
+pi = -1
 for car in carList:
+    pi +=1
     for tax in taxList:
         kia = [] #크롤링한 가격 정보
         if ws[idx][0].value != car:
@@ -59,7 +63,7 @@ for car in carList:
         # print("kia : " ,kia)
         
         #차별 Json 읽기
-        conf = read_Json(fpath, car, tax, fileName) # json에서 읽은 가격정보
+        conf = read_Json(fpath, car, tax, prefix[pi]) # json에서 읽은 가격정보
         # print("conf : ", conf)
 
         #정합성 체크, 엑셀쓰기
@@ -76,9 +80,8 @@ for car in carList:
                 ws.cell(row=idx, column=y+i).fill = PatternFill(fill_type='solid', fgColor=Color('789ABC'))
 
         idx +=1
+        print("writing excel======="+car, i)
     
 print("print result============")
-wb.save("result/result_" + currentTime+ ".xlsx") #경로 
-
-
-            
+currentTime = str(datetime.today().strftime("%Y-%m-%d")) 
+wb.save('result/result_'+currentTime+'.xlsx')
